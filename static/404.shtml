@@ -1,0 +1,32 @@
+<html>
+	<head>
+		<meta http-equiv='Pragma' content='no-cache'>
+		<link rel='icon' type='image/png' href='favicon.png'>
+		<style>
+		@font-face {
+			font-family: 'lv';
+			src: URL('/static/media/sf.ttf') format('truetype');
+		}
+
+		html * {
+			font-family: "lv", lv, "Helvetica Neue",Helvetica,Arial,sans-serif;
+		}
+		</style>
+		<title>Four O' Four</title>
+	</head>
+	<body bgcolor='black' style='color:white; font-face:"lv", lv, "Helvetica Neue",Helvetica,Arial,sans-serif;'>
+		<center>
+		<p>&nbsp</p>
+		<br>
+		<br>
+		<br>
+		<img src='/static/media/logo_inv.png'>
+		<p>&nbsp</p>
+		<h1>404 - PAGE IS NOT AVAILABLE</h1>
+		<h5>but i am- and i am begging of you, if you are an attractive male who is over the age of 18, please contact me</h5>
+		<br>
+		<a href='/'>
+			<h2>Go Home</h2>
+		</a>
+	</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="static/media/favicon.png" type="image/png" rel="icon" id="favicon">
+		<title>Shamchat: Don't be yourself!</title>
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="mobile-web-app-capable" content="yes">
+		<link rel="manifest" href="/static/manifest.json">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-title" content="sham.chat">
+		<link rel="apple-touch-icon" href="/static/media/icon_512.png">
+		<meta name="description" content="sham.chat: Don't be yourself!">
+		<meta class="meta chrometheme" name="theme-color" content="#66ccff">
+		<script>
+			if ('serviceWorker' in navigator) {
+				window.addEventListener('load', () => {
+					navigator.serviceWorker.register('/sw.js', {scope:"/"})
+					.then((reg) => {
+						console.log('Service worker registered.', reg);
+					});
+				});
+			}
+		</script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.7/socket.io.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+		<script src="/js/queryParams.js"></script>
+		<script src="/js/html2canvas.min.js"></script>
+		<script src="/static/scripts/dist/tagify.min.js"></script>
+		<script src='/static/bad_words.js'></script>
+		<script src="/js/utils.js"></script>
+		<script src="/js/announcement.js"></script>
+		<script src="/js/app.js?ver=1.26&please_clear_cache=1"></script>
+		<script src="/js/cookie.js"></script>
+		<script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-131477544-1"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			
+			gtag('config', 'UA-131477544-1');
+		</script>
+		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<style>
+			.responsive_ad_max { display:block; width:234px; height:60px; }
+			@media (max-width: 280px) { .responsive_ad_max { display: none; } }
+			@media only screen and (min-width:380px) { .responsive_ad_max {width: 320px; height: 100px; } }
+			@media only screen and (min-width:540px) { .responsive_ad_max {width: 468px; height: 60px; } }
+			@media only screen and (min-width:880px) { .responsive_ad_max {width: 728px; height: 90px; } }
+			@media only screen and (min-width:1120px) { .responsive_ad_max {width: 970px; height: 90px; } }
+			.responsive_ad_bottom { display:block; width:234px; height:60px; }
+			@media (max-width: 280px) { .responsive_ad_bottom { display: none; } }
+			@media only screen and (min-width:380px) { .responsive_ad_bottom {width: 320px; height: 100px; } }
+			@media only screen and (min-width:400px) { .responsive_ad_bottom {width: 336px; height: 280px; } }
+		</style>
+		<link rel="stylesheet" href="static/scripts/tagify/tagify.css" type="text/css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/style.css" type="text/css">
+	</head>
+	<body style="overflow-y: auto; -webkit-overflow-scrolling: touch;">
+		<div class="centered"><div class="loader"></div></div>
+		<div id="all" style='display: none'>
+			<div id="top"  class="desktop" style="justify-content: normal; padding-top: 5px; padding-bottom: 5px">
+				<img id="logo" src="static/media/logo2.png" style="height: 95px; padding: 5px; cursor:pointer;" onclick="go_home();">
+				<span id='hats' style='position: absolute;'>
+				<img class='hat' src='static/media/hat_1.png' onclick='$(this).hide();' onmouseover='move_hat(this)'>
+				<img class='hat' src='static/media/hat_2.png' onclick='$(this).hide();' onmouseover='move_hat(this)'>
+				<img class='hat' src='static/media/hat_3.png' onclick='$(this).hide();' onmouseover='move_hat(this)'>
+				<img class='hat' src='static/media/hat_4.png' onclick='$(this).hide();' onmouseover='move_hat(this)'>
+				<img class='hat' src='static/media/hat_5.png' onclick='$(this).hide();' onmouseover='move_hat(this)'>
+				<img class='hat' src='static/media/hat_6.png' onclick='$(this).hide();' onmouseover='move_hat(this)'>
+				<img class='hat' src='static/media/hat_0.png' onclick='$(this).hide();' onmouseover='move_hat(this)'>
+				</span>
+			</div>
+			<div id="top-mobile" class="mobile" style="position: relative; background: white;  justify-content: center; align-items: center; height: 70px;">
+				<div class="chat button connect" style="display: none; color: white; text-align: center; font-size: 20px; cursor: pointer; height: 100%; background: rgb(102, 204, 255); top: 0px; width: 25%; position: absolute; left: 0%;">
+					<p class="action-mobile-font">More</p>
+				</div>
+				<img id="logo-mobile" src="static/media/logo.png" style="cursor:pointer;" onclick="go_home();">
+				<div class="chat button send" style="display: none; color: white; text-align: center; font-size: 20px; cursor: pointer; height: 100%; background: rgb(204, 204, 204); top: 0px; width: 25%; position: absolute; right: 0%;">
+					<p class="action-mobile-font">Send</p>
+				</div>
+			</div>
+			<div id="home">
+				<div class="vertical-center">
+					<div class="container">
+						<div class="row">
+							<div class="col-xs-12 well well-home">
+								<p style="line-height:1.5em; font-size:18px;"><img src='static/media/komaeda.png' style='height:18px'> <a href="/discord">Join us on Discord!</a>
+								<p>&nbsp</p>
+								<div id="dardale">Welcome to the incredible world of Shamchat, where you can be anything at all! Just choose whatever character you'd like to assume, and get ready for a thrillingly improbable conversation with another person in character.</div>
+								<br><b><font style="color:#6cf">sham.chat (Copy 1) (Copy 1) (Copy 1) (Copy 1).pdf</font></b></p>
+								<p>&nbsp</p>
+								<center>
+									<!-- responsive_ad -->
+									<ins class="adsbygoogle responsive_ad_max"
+										data-ad-client="ca-pub-1112311601343218"
+										data-ad-slot="3177997102"></ins>
+								</center>
+								<br style="line-height:18px;">
+								<div class="r18name" style="display:none;">
+									<center>Keyword only permitted in the SRP section.</center>
+								</div>
+								<br>
+								<center><a href='javascript:;' onclick='show_content_guidelines();'>Content Guidelines</a></center>
+								<br>
+								<form>
+									<div class="switch-field switch-field-srp">
+										<input type="checkbox" id="radio-three" name="srpradio" value="clean"  onclick="return adjust_sections(true);"/>
+										<label for="radio-three">Clean</label>
+										<input type="checkbox" id="radio-four" name="srpradio" value="either"  onclick="return adjust_sections(true);"/>
+										<label for="radio-four">NSFW</label>
+										<input type="checkbox" id="radio-five" name="srpradio" value="srp"  onclick="return adjust_sections(true);"/>
+										<label for="radio-five">Edgy</label>
+									</div>
+								</form>
+								<br style="line-height:20px;">
+								<div class="form-group">
+									<center>
+										<div class="input-group widefields">
+											<input type="text" id="name_input" name="name" class="form-control settings text name" placeholder="Character Name" maxlength="100">
+											<span class="input-group-btn">
+											<button class="btn btn-primary" type="button" style="background: #66ccff; border-color: #66ccff;" onclick="button_suggest();"><span class="glyphicon glyphicon-glass" aria-hidden="true">
+											</span> Suggest</button>
+											</span>
+										</div>
+									</center>
+									<p>&nbsp</p>
+									<center>
+										<table class="widefields">
+											<tr>
+												<td style="vertical-align:top;">
+													<center><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal_settings" style="background-color:#66ccff; border-color:#66ccff;">Settings</button></center>
+												</td>
+												<td>
+													<center><button type="button" class="btn btn-info btn-lg home button connect" onclick="button_connect();" style="background-color:#66ccff; border-color:#66ccff;">Please wait...</button>
+														<br>
+														<a href='javascript:;' onclick="show_tos();">Terms of Service</a>
+													</center>
+												</td>
+											</tr>
+										</table>
+										<p>&nbsp</p>
+									</center>
+								</div>
+								<center>
+								<center><label>"Daily" Featured Chat<br></label></center>
+								<div id="featured_iframe" style="border-style: solid; border-color: #66ccff; border-width: 3px; padding: 2px; text-align: left; height: 300px; overflow-x:hide;overflow-y:auto; -webkit-overflow-scrolling: touch; padding-top:10px;padding-bottom:10px;">
+									<p style="font-size:20px; padding-left:10px;">Loading...</p>
+								</div>
+								<p>&nbsp</p>
+								<!-- responsive_ad_bottom -->
+								<ins class="adsbygoogle"
+									style="display:block"
+									data-ad-client="ca-pub-1112311601343218"
+									data-ad-slot="3710880961"
+									data-ad-format="auto"
+									data-full-width-responsive="true"></ins>
+								<p>&nbsp</p>
+								<center>
+									Please check your site settings (next to "Start a Text Chat")
+									<br>
+									<div class="input-group widefields complaintfield">
+										<input type="text" class="form-control text complaint" placeholder="WE <3 SHAM!" maxlength="500">
+										<span class="input-group-btn">
+										<button class="btn btn-primary" type="button" style="background: #66ccff; border-color: #66ccff;" onclick="complain($('.text.complaint').val());"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true">
+										</span> Complain</button>
+										</span>
+									</div>
+								</center>
+								<!-- Modal -->
+								<div class="modal fade" id="modal_settings" role="dialog">
+									<div class="modal-dialog">
+										<!-- Modal content-->
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal">&times;</button>
+												<h4 class="modal-title">Additional Settings</h4>
+											</div>
+											<div class="modal-body">
+												<p style="text-align:left"><label style="margin-top:5px;">Interests (incl. name):</label></p>
+												<input id="interests_textarea" name="interests" class="character settings text interests" placeholder="ENTER TO ADD" rows="1" type="text" maxlength="250">
+												<p style="text-align:left"><label style="margin-top:5px;">Blacklisted Keywords: <a href='javascript:;' onclick='clear_blacklist();'>Clear</a></label></p>
+												<input id="blacklist_textarea" name="blacklist" class="character settings text blacklist" placeholder="ENTER TO ADD" rows="1" type="text" maxlength="250">
+												<p>&nbsp</p>
+												<table style='width:100%'>
+													<tr>
+														<td>
+															<label style="margin-top:5px;">Enforce Interests</label><br>
+															<p class="onoff"><input class="settings checkbox strictly_interests" id="musterests" value="musterests" checked="" type="checkbox"><label for="musterests"></label></p>
+															<br><label style="margin-top:5px;">Interests Timeout</label><br>
+															<p class="onoff"><input class="settings checkbox interests_timeout" id="intimeout" value="intimeout" checked="" type="checkbox"><label for="intimeout"></label></p>
+															<br><label style="margin-top:5px;">Expose Interests</label><br>
+															<p class="onoff"><input class="settings checkbox expose_interests" id="expterests" value="expterests" checked="" type="checkbox"><label for="expterests"></label></p>
+														</td>
+														<td>
+															<label style="margin-top:5px;">Cooldown</label><br>
+															<p class="onoff"><input type="checkbox" class="settings checkbox cooldown" id="cooldown" value="cooldown" onclick="/*cooldown_checked(this)*/" checked><label for="cooldown"></label></p>
+															<br><label style="margin-top:5px;">Sound on</label><br>
+															<p class="onoff"><input type="checkbox" class="settings checkbox sound" id="sound_toggle" value="sound_toggle" onclick="check_sound();" checked><label for="sound_toggle"></label></p>
+															<br><label style="margin-top:5px;">Theme</label><br>
+															<div class="switch-field" style="justify-content: unset;">
+																<input type="radio" id="radio-three2" name="nightradio" value="light" onclick="toggle_night(0);"/>
+																<label for="radio-three2">Light</label>
+																<input type="radio" id="radio-four2" name="nightradio" value="dark" onclick="toggle_night(1);" checked/>
+																<label for="radio-four2">Dark</label>
+																<input type="radio" id="radio-five2" name="nightradio" value="amoled" onclick="toggle_night(2);"/>
+																<label for="radio-five2">Amoled</label>
+															</div>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<label style="margin-top:5px;">Blacklist Hotkey (B)</label><br>
+															<p class="onoff"><input class="settings checkbox hot-b" id="check_hot_b" value="check_hot_b" checked="" type="checkbox"><label for="check_hot_b"></label></p>
+														</td>
+														<td>
+															<label style="margin-top:5px;">Starter Hotkey (S)</label><br>
+															<p class="onoff"><input class="settings checkbox hot-s" id="check_hot_s" value="check_hot_s" checked="" type="checkbox"><label for="check_hot_s"></label></p>
+											
+														</td>
+													</tr>
+													<tr>
+														<td colspan="2">
+															<p>&nbsp</p>
+															<label>Starter (leave empty if none, \n for new line):</label>
+															<center>
+																<div class="input-group widefields" style="width:100%;"><textarea type="text" id="starter_input" name="starter" class="form-control settings text starter" placeholder="Lauren ippsum Komaeda (Sans)...\n&#10;Ref: https://tumblr.jp/kokichi.jpg" style="height:100%;"></textarea></div>
+															</center>
+														</td>
+													</tr>
+													<tr>
+														<td colspan="2">
+															<p>&nbsp</p>
+															<form>
+																<div class="switch-field">
+																	<input type="radio" id="fontradio-default" name="fontradio" onclick="set_font_size('unset');" checked/>
+																	<label for="fontradio-default">Default</label>
+																	<input type="radio" id="fontradio-20" name="fontradio" onclick="set_font_size('20px');"/>
+																	<label for="fontradio-20">20px</label>
+																	<input type="radio" id="fontradio-22" name="fontradio" onclick="set_font_size('22px');"/>
+																	<label for="fontradio-22">22px</label>
+																	<input type="radio" id="fontradio-24" name="fontradio" onclick="set_font_size('24px');"/>
+																	<label for="fontradio-24">24px</label>
+																</div>
+															</form>
+														</td>
+													</tr>
+													<tr>
+														<td colspan="2" style="padding-top:7px;">
+															<center><a href='javascript:;' onclick='export_profile();'>Export Profile</a> | <span id='importprofilediv'><a href='javascript:;' onclick='expose_import_profile();'>Import Profile</a></span></center>
+														</td>
+													</tr>
+												</table>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default settings finish" data-dismiss="modal" onclick="save_settings_ui()">Save & Quit</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="chat" class="chat" style = "display:none;">
+				<div class="container chat">
+					<div class="row" style="height:100%">
+						<div class="col-xs-12 well well-chat" style="height:100%">
+							<ul class="chat list messages list-group" style="overflow-y:scroll;">
+								<!-- history -->
+							</ul>
+							<div class="chat is-typing" style="height:20px"></div>
+						</div>
+					</div>
+				</div>
+				<div class="actions" style="display:flex; width:100%;">
+					<div class="desktop">
+						<img src="static/media/more.png" width="125px" class="chat button connect desktop" style="border:none; padding:0px;">
+						<img src="static/media/leave.png" width="125px" class="chat button connect desktop" style="border:none; padding:0px; display: none;">
+						<img src="static/media/sure.png" width="125px" class="chat button connect desktop" style="border:none; padding:0px; display: none;">
+					</div>
+					<div class="messagewrapper">
+						<textarea name="message" class="chat text message" style="width:100%; height:100%; padding:6px; margin:0px; border:none; resize:none;"></textarea>
+						<img id='cooldownclock_black' src='static/media/clock.svg' style='display:none;'>
+						<img id='cooldownclock_white' src='static/media/clock_white.png' style='display:none;'>
+					</div>
+					<div class="desktop">
+						<img src="static/media/send_button_disabled.png" width="125px" class="chat button send" style="border:none; padding:0px;">
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+

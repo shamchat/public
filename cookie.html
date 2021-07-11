@@ -1,0 +1,46 @@
+<html>
+<head>
+<title>Cookie Displayer</title>
+<script>
+function display() {
+	var storage = localStorage.getItem('site_settings', '');
+	var cookies = document.cookie;
+	document.getElementById('storage').value = storage;
+	document.getElementById('cookies').value = cookies;
+}
+function clearStorage() {
+	return false;
+	localStorage.setItem('site_settings', '');
+}
+function clearCookies() {
+	return false;
+	document.cookie = '';
+}
+</script>
+</head>
+<body onload="display();">
+<center>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<img src='static/media/logo.png'>
+<p>&nbsp;</p>
+<font face='Arial'><h2>
+First box contains your site storage, and the second one contains your cookies. Both are unique to this domain (sham.chat, I can't see your cookies from Google.com here)
+<br>
+The data consists of your most recently used name, archive history, your interests, blacklist, and non sensitive site settings.
+<br>
+<br>
+<textarea id="storage" cols="40" rows="5" readonly='true'></textarea>
+<br>
+<br>
+<textarea id="cookies" cols="40" rows="5" readonly='true'></textarea>
+<br>
+<br>
+<button onclick="clearStorage();">Clear Storage</button>
+<br>
+<button onclick="clearCookies();">Clear Cookies</button>
+</font></h2>
+</center>
+</body>
+</html>

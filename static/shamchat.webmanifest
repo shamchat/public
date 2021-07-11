@@ -1,0 +1,23 @@
+{
+    "name": "sham.chat",
+    "short_name": "sham.chat",
+    "icons": [
+        {
+            "src": "/static/media/icon_192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/static/media/icon_512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "start_url": "https://sham.chat/",
+    "display": "standalone",
+    "scope": "/",
+    "background_color": "#ffffff",
+    "theme_color": "#66ccff",
+    "description": "Don't be yourself!",
+    "lang": "en-US"
+}
